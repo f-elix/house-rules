@@ -1,0 +1,33 @@
+{
+	"name": "house-rules",
+	"version": "0.0.0",
+	"private": true,
+	"description": "Coding guardrails that repos vendor and update through a reviewed 3-way merge",
+	"license": "MIT",
+	"author": "Felix Guérin",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/f-elix/house-rules"
+	},
+	"type": "module",
+	"packageManager": "pnpm@11.25.0",
+	"engines": {
+		"node": ">=22.18"
+	},
+	"scripts": {
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"lint": "oxlint --max-warnings 0",
+		"typecheck": "tsc",
+		"test": "node --test \"test/**/*.test.ts\"",
+		"check": "pnpm run lint && pnpm run typecheck && pnpm run test"
+	},
+	"devDependencies": {
+		"@oxlint/plugins": "1.81.0",
+		"@types/node": "24.13.3",
+		"oxlint": "1.81.0",
+		"prettier": "3.9.6",
+		"prettier-plugin-organize-imports": "4.3.0",
+		"typescript": "6.0.3"
+	}
+}

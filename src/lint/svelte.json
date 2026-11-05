@@ -1,0 +1,9 @@
+{
+	"jsPlugins": [{ "name": "house-svelte", "specifier": "./house-svelte/index.ts" }],
+	"overrides": [
+		{
+			"files": ["src/routes/**/*"],
+			"rules": { "house-svelte/no-underscore-exports": "error" }
+		}
+	]
+}

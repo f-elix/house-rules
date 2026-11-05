@@ -1,0 +1,43 @@
+name: Format, lint and check
+
+on:
+    push:
+        branches-ignore:
+            - main
+
+jobs:
+    check:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  package_json_file: package.json
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: pnpm
+
+            - name: Install
+              run: pnpm install --frozen-lockfile
+
+            - name: Format
+              run: pnpm run format:check
+
+            - name: Lint
+              run: pnpm run lint
+
+            - name: Check
+              run: pnpm run check
+
+            - name: House rules
+              run: |
+                  url=$(node -p "require('./house-rules.lock.json').source.url")
+                  ref=$(node -p "require('./house-rules.lock.json').source.ref")
+                  git clone --quiet --filter=blob:none --no-checkout "$url" "$RUNNER_TEMP/house-rules"
+                  git -C "$RUNNER_TEMP/house-rules" checkout --quiet "$ref"
+                  node "$RUNNER_TEMP/house-rules/scripts/house-rules.mjs" check

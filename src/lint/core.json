@@ -1,0 +1,60 @@
+{
+	"categories": {
+		"correctness": "error",
+		"pedantic": "off",
+		"suspicious": "off",
+		"perf": "error",
+		"style": "off",
+		"nursery": "off",
+		"restriction": "off"
+	},
+	"jsPlugins": [{ "name": "anti-slop", "specifier": "./anti-slop/index.ts" }],
+	"rules": {
+		"no-unused-vars": [
+			"warn",
+			{
+				"ignoreRestSiblings": true,
+				"destructuredArrayIgnorePattern": "^_",
+				"argsIgnorePattern": "^_",
+				"caughtErrorsIgnorePattern": ".*"
+			}
+		],
+		"typescript/explicit-module-boundary-types": "off",
+		"typescript/consistent-type-definitions": "off",
+		"typescript/array-type": "off",
+		"typescript/consistent-indexed-object-style": "off",
+		"typescript/prefer-for-of": "off",
+		"typescript/no-explicit-any": "warn",
+		"no-console": ["error", { "allow": ["warn", "error", "dir", "info"] }],
+		"no-implied-eval": "error",
+		"no-eval": "error",
+		"curly": "off",
+		"prefer-set-has": "off",
+		"no-await-in-loop": "off",
+		"no-map-spread": "off",
+		"oxc/no-accumulating-spread": "error",
+		"unicorn/no-array-sort": "error",
+		"unicorn/no-array-reverse": "error",
+		"no-else-return": "error",
+		"max-depth": ["error", 2],
+		"unicorn/no-lonely-if": "error",
+		"anti-slop/no-array-filter-map": "error",
+		"anti-slop/no-reduce-accumulator-copy": "error",
+		"anti-slop/no-chained-type-assertions": "error",
+		"anti-slop/no-conditional-empty-object-spread": "error",
+		"anti-slop/no-known-value-widening": "error",
+		"anti-slop/no-module-mocking": "error",
+		"anti-slop/no-object-parameters": "error",
+		"anti-slop/no-reflect-apply": "error",
+		"anti-slop/no-reflect-get": "error",
+		"anti-slop/no-runtime-typeof": "error",
+		"anti-slop/no-shape-in-symbol-names": "error",
+		"anti-slop/no-unknown-parameters": "error",
+		"anti-slop/no-unknown-returns": "error",
+		"anti-slop/no-unknown-type-aliases": "error",
+		"anti-slop/no-unsafe-dictionary-type": "error",
+		"anti-slop/no-widen-then-assert": "error",
+		"anti-slop/require-readable-spacing": "error",
+		"anti-slop/require-safety-comment-for-type-assertion": "error"
+	}
+}

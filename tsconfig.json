@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "es2024",
+		"lib": ["es2024"],
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"types": ["node"],
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noEmit": true,
+		"allowJs": true,
+		"checkJs": true,
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"erasableSyntaxOnly": true,
+		"skipLibCheck": true
+	},
+	"include": [
+		"scripts",
+		"skills/house-rules/scripts",
+		"src/lint/house-effect",
+		"src/lint/house-svelte",
+		"test"
+	]
+}

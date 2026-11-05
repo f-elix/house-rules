@@ -1,0 +1,271 @@
+{
+	"hosts": {
+		"AGENTS.md": {
+			"style": "markdown",
+			"scaffold": "# AGENTS.md\n\n{{block}}\n"
+		},
+		"docs/conventions/README.md": {
+			"style": "markdown",
+			"scaffold": "# Code conventions\n\n{{block}}\n"
+		},
+		".prettierignore": {
+			"style": "hash"
+		},
+		".oxlintrc.json": {
+			"scaffold": "{\n\t\"$schema\": \"./node_modules/oxlint/configuration_schema.json\"\n}\n",
+			"alternatives": [".oxlintrc.jsonc", "oxlint.config.ts", "oxlint.config.mts"]
+		}
+	},
+	"modules": {
+		"core": {
+			"description": "Guardrails for any TypeScript repo: oxlint with anti-slop, conventions, design skills, agent docs, EditorConfig and CI.",
+			"requires": [],
+			"keepTogether": ["tools/oxlint"],
+			"files": [
+				{
+					"source": "src/lint/core.json",
+					"target": "tools/oxlint/core.json",
+					"kind": "oxlint-config"
+				},
+				{
+					"source": "src/lint/anti-slop",
+					"target": "tools/oxlint/anti-slop"
+				},
+				{
+					"source": "src/conventions/comments.md",
+					"target": "docs/conventions/comments.md"
+				},
+				{
+					"source": "src/conventions/comments.details.md",
+					"target": "docs/conventions/comments.details.md"
+				},
+				{
+					"source": "src/conventions/file-organization.md",
+					"target": "docs/conventions/file-organization.md"
+				},
+				{
+					"source": "src/conventions/test-cases.md",
+					"target": "docs/conventions/test-cases.md"
+				},
+				{
+					"source": "src/conventions/testing.md",
+					"target": "docs/conventions/testing.md"
+				},
+				{
+					"source": "src/conventions/typescript.md",
+					"target": "docs/conventions/typescript.md"
+				},
+				{
+					"source": "src/agents/docs/domain.md",
+					"target": "docs/agents/domain.md"
+				},
+				{
+					"source": "src/agents/docs/issue-tracker.md",
+					"target": "docs/agents/issue-tracker.md"
+				},
+				{
+					"source": "src/agents/docs/triage-labels.md",
+					"target": "docs/agents/triage-labels.md"
+				},
+				{
+					"source": "src/config/.editorconfig",
+					"target": ".editorconfig"
+				},
+				{
+					"source": "src/ci/format-lint-check.yaml",
+					"target": ".github/workflows/format-lint-check.yaml"
+				},
+				{
+					"source": "src/ci/unit-tests.yaml",
+					"target": ".github/workflows/unit-tests.yaml"
+				}
+			],
+			"skills": [
+				"src/skills/codebase-design",
+				"src/skills/software-design-philosophy",
+				"src/skills/testing"
+			],
+			"blocks": [
+				{
+					"source": "src/agents/core.md",
+					"target": "AGENTS.md"
+				},
+				{
+					"source": "src/conventions/readme/core.md",
+					"target": "docs/conventions/README.md"
+				},
+				{
+					"source": "src/config/.prettierignore.core",
+					"target": ".prettierignore"
+				}
+			],
+			"json": [
+				{
+					"target": ".oxlintrc.json",
+					"key": "extends",
+					"values": ["{{rel:tools/oxlint/core.json}}"]
+				},
+				{
+					"target": ".oxlintrc.json",
+					"key": "ignorePatterns",
+					"values": [
+						".agent/**",
+						".agents/**",
+						".claude/**",
+						".codex/**",
+						".continue/**",
+						".cursor/**",
+						".gemini/**",
+						".opencode/**",
+						".pi/**",
+						".roo/**",
+						".windsurf/**",
+						"{{path:tools/oxlint/anti-slop}}/**"
+					]
+				}
+			],
+			"devDependencies": {
+				"oxlint": "1.81.0",
+				"@oxlint/plugins": "1.81.0",
+				"prettier": "^3.6.0",
+				"typescript": "^5.9.0 || ^6.0.0"
+			},
+			"scripts": {
+				"format": "prettier --write .",
+				"format:check": "prettier --check .",
+				"lint": "oxlint --max-warnings 0",
+				"check": "type-checks the project, for example tsc --noEmit",
+				"test": "runs the unit tests"
+			},
+			"serves": {
+				"oxlint": ["tools/oxlint", ".github/workflows/format-lint-check.yaml"],
+				"@oxlint/plugins": ["tools/oxlint"],
+				"lint": ["tools/oxlint", ".github/workflows/format-lint-check.yaml"]
+			},
+			"prerequisites": [
+				{
+					"path": ".nvmrc",
+					"why": "the CI workflows read the Node version from it; use Node 22.18 or later, since oxlint loads the anti-slop plugin from TypeScript source through Node's type stripping"
+				},
+				{
+					"field": "type",
+					"why": "set it to \"module\": oxlint loads the anti-slop plugin as an ES module, and Node warns on every lint run otherwise"
+				},
+				{
+					"field": "packageManager",
+					"why": "pnpm/action-setup in the CI workflows reads the pnpm version from it"
+				}
+			]
+		},
+		"effect": {
+			"description": "Effect v4 server code: services, layers, schemas and error handling, with the anti-slop-effect and house-effect lint rules.",
+			"requires": ["core"],
+			"files": [
+				{
+					"source": "src/lint/effect.json",
+					"target": "tools/oxlint/effect.json",
+					"kind": "oxlint-config"
+				},
+				{
+					"source": "src/lint/house-effect",
+					"target": "tools/oxlint/house-effect"
+				},
+				{
+					"source": "src/conventions/effect.md",
+					"target": "docs/conventions/effect.md"
+				},
+				{
+					"source": "src/conventions/effect.details.md",
+					"target": "docs/conventions/effect.details.md"
+				},
+				{
+					"source": "src/conventions/error-handling.md",
+					"target": "docs/conventions/error-handling.md"
+				},
+				{
+					"source": "src/conventions/error-handling.details.md",
+					"target": "docs/conventions/error-handling.details.md"
+				}
+			],
+			"blocks": [
+				{
+					"source": "src/conventions/readme/effect.md",
+					"target": "docs/conventions/README.md"
+				},
+				{
+					"source": "src/config/.prettierignore.effect",
+					"target": ".prettierignore"
+				}
+			],
+			"json": [
+				{
+					"target": ".oxlintrc.json",
+					"key": "extends",
+					"values": ["{{rel:tools/oxlint/effect.json}}"]
+				},
+				{
+					"target": ".oxlintrc.json",
+					"key": "ignorePatterns",
+					"values": ["{{path:tools/oxlint/house-effect}}/**"]
+				}
+			]
+		},
+		"svelte": {
+			"description": "Svelte 5 and SvelteKit components, with the house-svelte lint rules.",
+			"requires": ["core"],
+			"files": [
+				{
+					"source": "src/lint/svelte.json",
+					"target": "tools/oxlint/svelte.json",
+					"kind": "oxlint-config"
+				},
+				{
+					"source": "src/lint/house-svelte",
+					"target": "tools/oxlint/house-svelte"
+				},
+				{
+					"source": "src/conventions/svelte-components.md",
+					"target": "docs/conventions/svelte-components.md"
+				}
+			],
+			"blocks": [
+				{
+					"source": "src/conventions/readme/svelte.md",
+					"target": "docs/conventions/README.md"
+				},
+				{
+					"source": "src/config/.prettierignore.svelte",
+					"target": ".prettierignore"
+				}
+			],
+			"json": [
+				{
+					"target": ".oxlintrc.json",
+					"key": "extends",
+					"values": ["{{rel:tools/oxlint/svelte.json}}"]
+				},
+				{
+					"target": ".oxlintrc.json",
+					"key": "ignorePatterns",
+					"values": ["{{path:tools/oxlint/house-svelte}}/**"]
+				}
+			]
+		},
+		"tailwind": {
+			"description": "Styling with Tailwind CSS.",
+			"requires": ["core"],
+			"files": [
+				{
+					"source": "src/conventions/styling.md",
+					"target": "docs/conventions/styling.md"
+				}
+			],
+			"blocks": [
+				{
+					"source": "src/conventions/readme/tailwind.md",
+					"target": "docs/conventions/README.md"
+				}
+			]
+		}
+	}
+}
