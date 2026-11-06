@@ -62,7 +62,6 @@ Add `check` to CI. The `core` module's workflow runs it. It fails on missing man
 | `src/lint/core.json`              | `tools/oxlint/core.json`                |
 | `src/lint/anti-slop/`             | `tools/oxlint/anti-slop/`               |
 | `src/conventions/*.md`            | `docs/conventions/`                     |
-| `src/agents/docs/*.md`            | `docs/agents/`                          |
 | `src/skills/<name>/`              | `.agents/skills/<name>/`                |
 | `src/config/.editorconfig`        | `.editorconfig`                         |
 | `src/ci/*.yaml`                   | `.github/workflows/`                    |

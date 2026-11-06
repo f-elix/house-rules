@@ -67,7 +67,7 @@ A negative test that checks only that the call failed passes when the input is r
 
 ### 9. Every requirement gets a test or a written reason
 
-Walk the issue's requirements one by one (the issue and its PRD in the [issue tracker]({{rel:docs/agents/issue-tracker.md}}), or the request itself). Each gets a test, or a line in the PR saying why it has none.
+Walk the issue's requirements one by one (the issue and its spec, or the request itself). Each gets a test, or a line in the PR saying why it has none.
 
 ### 10. Same logic, every entry point
 

@@ -9,17 +9,3 @@ This codebase follows John Ousterhout's _A Philosophy of Software Design_. Apply
 ## Code conventions
 
 Before writing or reviewing code, open `{{path:docs/conventions/README.md}}` and read every topic whose **Applies to** matches the change.
-
-## Agent skills
-
-### Issue tracker
-
-Issues are tracked as local markdown files under `.scratch/`. See `{{path:docs/agents/issue-tracker.md}}`.
-
-### Triage labels
-
-Triage uses the default canonical label strings. See `{{path:docs/agents/triage-labels.md}}`.
-
-### Domain docs
-
-`{{path:docs/agents/domain.md}}` says where `CONTEXT.md` and the ADRs live and when to read them.

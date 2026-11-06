@@ -87,7 +87,7 @@ If one of these works, do that instead. It removes the question rather than answ
 
 ## Vocabulary
 
-Comments, JSDoc and names use lasting words suited to their reader. When the domain phrase a reader would search for differs from the identifier, use the phrase: the terms in the repo's `CONTEXT.md` glossary come first ([domain docs]({{rel:docs/agents/domain.md}})). Issue names, migration phases, framework mechanics and planning language belong in issues and PRs, not in a comment.
+Comments, JSDoc and names use lasting words suited to their reader. When the domain phrase a reader would search for differs from the identifier, use the phrase: the terms in the repo's glossary, if it has one, come first. Issue names, migration phases, framework mechanics and planning language belong in issues and PRs, not in a comment.
 
 ## What a comment must not contain
 
@@ -95,7 +95,7 @@ A comment is read by someone with the file open and nothing else. Anything needi
 
 | Don't write                                     | Why                                                  |
 | ----------------------------------------------- | ---------------------------------------------------- |
-| `see #209`, `fixes .scratch/auth-refactor.md`   | The PR or issue is where that context lives          |
+| `see #209`, `fixes ISSUE-42`                    | The PR or issue is where that context lives          |
 | `changed in a1b2c3d`, `per the last diff`       | `git log` / `git blame` answer this, and correctly   |
 | `previously this used a Map`, `used to be sync` | The old code is gone; describing it confuses readers |
 | `as discussed with the client`, `per review`    | Unverifiable and meaningless in six months           |

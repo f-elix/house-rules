@@ -56,28 +56,12 @@
 					"target": "docs/conventions/typescript.md"
 				},
 				{
-					"source": "src/agents/docs/domain.md",
-					"target": "docs/agents/domain.md"
-				},
-				{
-					"source": "src/agents/docs/issue-tracker.md",
-					"target": "docs/agents/issue-tracker.md"
-				},
-				{
-					"source": "src/agents/docs/triage-labels.md",
-					"target": "docs/agents/triage-labels.md"
-				},
-				{
 					"source": "src/config/.editorconfig",
 					"target": ".editorconfig"
 				},
 				{
 					"source": "src/ci/format-lint-check.yaml",
 					"target": ".github/workflows/format-lint-check.yaml"
-				},
-				{
-					"source": "src/ci/unit-tests.yaml",
-					"target": ".github/workflows/unit-tests.yaml"
 				}
 			],
 			"skills": [
