@@ -18,7 +18,7 @@ Write a workflow with `Effect.gen` and `yield*`: retrieving services, dependent 
 
 | What                                                                                        | How                                                      |
 | ------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| Retrieving services, sequential steps, business conditions                                  | `Effect.gen`, or `Effect.fn` for a service method        |
+| Retrieving services, sequential steps, business conditions                                  | `Effect.gen`, or `Effect.fn`                             |
 | Error translation and recovery, retry, timeout, log annotations, providing services, layers | `.pipe(...)`, or `Effect.fn`'s whole-function transforms |
 | One pure transform of the result                                                            | `.pipe(Effect.map(...))`; no generator for it            |
 | Several dependent `map` / `flatMap` / `andThen` steps                                       | A generator, so the intermediate values have names       |
@@ -27,9 +27,9 @@ Inside a generator, a yielded Effect may pipe a local error translation or a sim
 
 ## `Effect.fn`
 
-Every method a service's `make` returns is an `Effect.fn` named `'Service.method'`; convert a plain arrow when you change it. The name becomes a span, so a defect's log shows which method it came from. A type annotation on the result uses `Effect.fn.Return<A, E, R>`.
+`Effect.fn` is optional. Its name becomes a span, which pays off only when the repo exports traces. A service operation that takes no arguments is a plain Effect built with `Effect.gen`. One that takes arguments can be an arrow that returns `Effect.gen`, or an `Effect.fn` when you want its whole-function transforms. Write the operations of one service the same way. A type annotation on an `Effect.fn` result uses `Effect.fn.Return<A, E, R>`.
 
-Pass transforms that apply to the whole method straight after the generator, as pipeables:
+When you use `Effect.fn`, pass transforms that apply to the whole method straight after the generator, as pipeables:
 
 ```ts
 const scheduleFollowUp = Effect.fn('Onboarding.scheduleFollowUp')(
@@ -40,7 +40,7 @@ const scheduleFollowUp = Effect.fn('Onboarding.scheduleFollowUp')(
 );
 ```
 
-Pass each transform as its own argument after the generator; one that needs the method's arguments takes them as extra parameters, `(effect, input) => …`. Test doubles and module-level helpers don't need `Effect.fn`.
+Pass each transform as its own argument after the generator; one that needs the method's arguments takes them as extra parameters, `(effect, input) => …`.
 
 ## Services
 

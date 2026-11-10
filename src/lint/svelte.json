@@ -1,5 +1,18 @@
 {
 	"jsPlugins": [{ "name": "house-svelte", "specifier": "./house-svelte/index.ts" }],
+	"rules": {
+		"no-restricted-imports": [
+			"error",
+			{
+				"patterns": [
+					{
+						"regex": "(^|/)\\$types$",
+						"message": "SvelteKit infers route types; don't import them from $types."
+					}
+				]
+			}
+		]
+	},
 	"overrides": [
 		{
 			"files": ["src/routes/**/*"],

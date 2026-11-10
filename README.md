@@ -93,13 +93,13 @@ Install them with `--modules`, for example `--modules effect,svelte,tailwind`. E
 | `effect`   | `src/lint/effect.json`, `src/lint/house-effect/`                         | `tools/oxlint/`     |
 |            | `src/conventions/effect.md`, `error-handling.md` and their `.details.md` | `docs/conventions/` |
 | `svelte`   | `src/lint/svelte.json`, `src/lint/house-svelte/`                         | `tools/oxlint/`     |
-|            | `src/conventions/svelte-components.md`                                   | `docs/conventions/` |
+|            | `src/conventions/svelte-components.md`, `sveltekit.details.md`           | `docs/conventions/` |
 | `tailwind` | `src/conventions/styling.md`                                             | `docs/conventions/` |
 
 Each adds its own table of topics to `docs/conventions/README.md`. `effect` and `svelte` add their oxlint config to `extends` after core's, and put their plugin folder in `ignorePatterns` and `.prettierignore`.
 
 - `effect.json` turns on the vendored `anti-slop-effect` rules and `house-effect/no-instanceof-in-effect-error-handler`. That rule flags `instanceof` on an error class inside an Effect error handler, since tagged errors are told apart by tag. Built-in errors pass. List classes that share one tag on purpose in the rule's `allow` option.
-- `svelte.json` turns on `house-svelte/no-underscore-exports` in `src/routes/`. SvelteKit accepts `_`-prefixed exports from route files, which makes them a back door for tests.
+- `svelte.json` turns on `house-svelte/no-underscore-exports` in `src/routes/`. SvelteKit accepts `_`-prefixed exports from route files, which makes them a back door for tests. It also turns on `no-restricted-imports` for `$types` modules, since SvelteKit infers route types.
 
 oxlint also lints the `<script>` of `.svelte` files, with every rule the configs turn on.
 
