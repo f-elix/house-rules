@@ -46,7 +46,17 @@ function toolConsumer(): TempRepo {
 			'\tEffect.catch(effect, (error) => Effect.succeed(error instanceof MissingError ? 0 : 1));',
 			''
 		].join('\n'),
-		'src/routes/+page.ts': 'export const _load = 1;\n'
+		'src/routes/+page.ts': 'export const _load = 1;\n',
+		'src/routes/+page.svelte': [
+			'<script lang="ts">',
+			"\timport type { PageData } from './$types';",
+			'',
+			'\tlet { data }: { data: PageData } = $props();',
+			'</script>',
+			'',
+			'<p>{data}</p>',
+			''
+		].join('\n')
 	});
 
 	for (const name of PACKAGES) {
@@ -185,6 +195,7 @@ describe('the modules', () => {
 		assert.deepEqual(diagnostics.toSorted(), [
 			['lib/bad.ts', 'anti-slop(no-array-filter-map)'],
 			['lib/recover.ts', 'house-effect(no-instanceof-in-effect-error-handler)'],
+			['src/routes/+page.svelte', 'eslint(no-restricted-imports)'],
 			['src/routes/+page.ts', 'house-svelte(no-underscore-exports)']
 		]);
 	});

@@ -221,3 +221,27 @@ const user = users.find((u) => u.id === targetId)!;
 const user = users.find((u) => u.id === targetId);
 if (!user) throw new Error('User not found');
 ```
+
+## Narrow scope
+
+Make every variable visible to as few lines as possible. Declare it right before its first use, with its final value. Build that value in one expression when you can: a reader shouldn't have to track a variable across lines that don't touch it.
+
+The usual miss is an empty array, object, `Set` or `Map` that a later loop fills. Build it with `map`, `filter`, `flatMap` or `reduce`, or move the loop into a function that returns it. The same goes for a collection a nested callback fills on the side: derive it from the data it comes from.
+
+```typescript
+// ❌ Bad: `orders` and `rejected` are declared far from the code that gives them their values
+const rejected = new Set<string>();
+// …
+const orders: Order[] = [];
+
+for (const row of rows) {
+	const order = parseOrder(row);
+
+	if (order) orders.push(order);
+	else rejected.add(row);
+}
+
+// ✅ Good: each value comes from one expression, where it's used
+const orders = rows.map(parseOrder).filter((order) => order !== undefined);
+const rejected = new Set(rows.filter((row) => parseOrder(row) === undefined));
+```

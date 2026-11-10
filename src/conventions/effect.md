@@ -25,12 +25,12 @@ A domain module exposes its capabilities as `Context.Service`s. A service lives 
 /** Lists the plans a customer can buy. */
 export type CatalogApi = {
 	/** The public plans in display order. */
-	readonly listPublicPlans: () => Effect.Effect<ReadonlyArray<Plan>, DatabaseError>;
+	readonly listPublicPlans: Effect.Effect<ReadonlyArray<Plan>, DatabaseError>;
 };
 
 const make = Effect.gen(function* () {
 	const database = yield* Database;
-	const listPublicPlans = Effect.fn('Catalog.listPublicPlans')(function* () {
+	const listPublicPlans = Effect.gen(function* () {
 		// …
 	});
 	return { listPublicPlans };

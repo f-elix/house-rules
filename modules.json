@@ -210,6 +210,10 @@
 				{
 					"source": "src/conventions/svelte-components.md",
 					"target": "docs/conventions/svelte-components.md"
+				},
+				{
+					"source": "src/conventions/sveltekit.details.md",
+					"target": "docs/conventions/sveltekit.details.md"
 				}
 			],
 			"blocks": [
