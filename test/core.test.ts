@@ -8,7 +8,13 @@ import { parseManifest } from '../scripts/lib/manifest.mjs';
 import { createConsumer, engine, ENV, ROOT, TempRepo } from './helpers.ts';
 
 /** Packages the installed config needs, linked from this checkout so the test runs offline. */
-const PACKAGES = ['oxlint', '@oxlint/plugins', 'prettier', 'prettier-plugin-organize-imports'];
+const PACKAGES = [
+	'oxlint',
+	'@oxlint/plugins',
+	'prettier',
+	'prettier-plugin-organize-imports',
+	'svelte'
+];
 
 /** Installs every module, so one consumer covers all of the payload. */
 const ALL = ['--modules', 'core,effect,svelte,tailwind'];
@@ -55,6 +61,38 @@ function toolConsumer(): TempRepo {
 			'</script>',
 			'',
 			'<p>{data}</p>',
+			''
+		].join('\n'),
+		'lib/Badge.svelte': [
+			'<script module lang="ts">',
+			"\texport const label = 'count';",
+			'</script>',
+			'',
+			'<script lang="ts">',
+			'\tlet { count }: { count: () => Promise<number> } = $props();',
+			'</script>',
+			'',
+			'<svelte:boundary>',
+			'\t<span>{await count()}</span>',
+			'\t{#snippet pending()}{/snippet}',
+			'\t{#snippet failed()}',
+			'\t\t<!-- hidden -->',
+			'\t{/snippet}',
+			'</svelte:boundary>',
+			''
+		].join('\n'),
+		'lib/List.svelte': [
+			'<script lang="ts">',
+			'\tlet { items }: { items: string[] } = $props();',
+			'</script>',
+			'',
+			'{#snippet row(item: string)}',
+			'\t<li>{item}</li>',
+			'{/snippet}',
+			'',
+			'<ul>',
+			'\t{#each items as item (item)}{@render row(item)}{/each}',
+			'</ul>',
 			''
 		].join('\n')
 	});
@@ -193,6 +231,8 @@ describe('the modules', () => {
 
 		assert.equal(result.stderr, '');
 		assert.deepEqual(diagnostics.toSorted(), [
+			['lib/Badge.svelte', 'house-svelte(no-empty-snippets)'],
+			['lib/Badge.svelte', 'house-svelte(no-empty-snippets)'],
 			['lib/bad.ts', 'anti-slop(no-array-filter-map)'],
 			['lib/recover.ts', 'house-effect(no-instanceof-in-effect-error-handler)'],
 			['src/routes/+page.svelte', 'eslint(no-restricted-imports)'],

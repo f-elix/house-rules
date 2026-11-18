@@ -28,6 +28,7 @@
 		"oxlint": "1.81.0",
 		"prettier": "3.9.6",
 		"prettier-plugin-organize-imports": "4.3.0",
+		"svelte": "5.57.3",
 		"typescript": "6.0.3"
 	}
 }

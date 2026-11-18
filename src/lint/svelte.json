@@ -15,6 +15,10 @@
 	},
 	"overrides": [
 		{
+			"files": ["**/*.svelte"],
+			"rules": { "house-svelte/no-empty-snippets": "error" }
+		},
+		{
 			"files": ["src/routes/**/*"],
 			"rules": { "house-svelte/no-underscore-exports": "error" }
 		}
