@@ -237,7 +237,13 @@
 					"key": "ignorePatterns",
 					"values": ["{{path:tools/oxlint/house-svelte}}/**"]
 				}
-			]
+			],
+			"devDependencies": {
+				"svelte": "^5.0.0"
+			},
+			"serves": {
+				"svelte": ["tools/oxlint/house-svelte"]
+			}
 		},
 		"tailwind": {
 			"description": "Styling with Tailwind CSS.",
