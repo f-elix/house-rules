@@ -8,10 +8,10 @@ We use Tailwind CSS as our primary styling approach. Avoid inline styles and cus
 
 ```svelte
 <!-- ✅ Good: Use Tailwind utility classes -->
-<div class="flex flex-col gap-4 rounded-lg bg-white p-6 shadow-md">
+<div class="flex flex-col gap-16 rounded-lg bg-white p-24 shadow-md">
 	<h2 class="text-4 font-semibold text-gray-900">Title</h2>
 	<p class="text-gray-600">Description</p>
-	<button class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+	<button class="rounded-md bg-blue-600 px-16 py-8 text-white hover:bg-blue-700">
 		Click me
 	</button>
 </div>
@@ -54,9 +54,9 @@ Use Svelte's built-in class attribute values to organize your classes in a reada
 <!-- ✅ Good: Organized class order -->
 <div
 	class={[
-		'flex flex-col gap-4 items-center justify-between'
+		'flex flex-col gap-16 items-center justify-between'
 		'max-w-800 w-full'
-		'rounded-lg border border-gray-200 p-6'
+		'rounded-lg border border-gray-200 p-24'
 		'bg-white shadow-md'
 		'transition-colors duration-200'
 		'hover:bg-gray-200',
@@ -92,9 +92,9 @@ For complex component variants, use `tv` from [`tailwind-variants`](https://www.
 				danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
 			},
 			size: {
-				sm: 'px-3 py-1.5 text-sm',
-				md: 'px-4 py-2 text-base',
-				lg: 'px-6 py-3 text-lg'
+				sm: 'px-12 py-4 text-sm',
+				md: 'px-16 py-8 text-base',
+				lg: 'px-24 py-12 text-lg'
 			},
 			disabled: {
 				true: 'cursor-not-allowed opacity-50',
@@ -125,8 +125,8 @@ To merge classes together, use the `cn()` helper, which uses [`tailwind-merge`](
 ```ts
 import { twMerge } from 'tailwind-merge';
 
-twMerge('px-2 py-1 bg-red hover:bg-dark-red', 'p-3 bg-[#B91C1C]');
-// → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
+twMerge('px-8 py-4 bg-red hover:bg-dark-red', 'p-12 bg-[#B91C1C]');
+// → 'hover:bg-dark-red p-12 bg-[#B91C1C]'
 ```
 
 ## Custom CSS (When Necessary)
@@ -191,18 +191,18 @@ Global styles should almost always be avoided. The only exception would be css r
 @layer components {
 	/* ❌️ Bad: These styles should be applied in Svelte components */
 	.btn {
-		@apply rounded-md px-4 py-2 font-semibold transition-colors;
+		@apply rounded-md px-16 py-8 font-semibold transition-colors;
 	}
 
 	.card {
-		@apply rounded-lg bg-white p-6 shadow-md;
+		@apply rounded-lg bg-white p-24 shadow-md;
 	}
 }
 ```
 
 ## Icons
 
-Render icons through the repo's one icon component, and size and color them with Tailwind classes (`size-5`, `text-muted-foreground`). Don't paste SVG markup into a component or import an icon library directly.
+Render icons through the repo's one icon component, and size and color them with Tailwind classes (`size-20`, `text-muted-foreground`). Don't paste SVG markup into a component or import an icon library directly.
 
 ## Colors
 
@@ -222,7 +222,7 @@ Use Tailwind's color system:
 
 ## Spacing
 
-Use multiple of fours for all regular spacings and sizes. Some exceptions may be warranted for special cases.
+Use multiples of four for all regular spacings and sizes. Some exceptions may be warranted for special cases. These conventions assume Tailwind's spacing unit is 1px (`--spacing: 1px`), so the number in a class is its size in pixels: `p-16` is 16px.
 
 ```svelte
 <!-- Padding -->
@@ -232,7 +232,7 @@ Use multiple of fours for all regular spacings and sizes. Some exceptions may be
 <div class="p-24">24px</div>
 <div class="p-32">32px</div>
 
-<!-- Margins -->
+<!-- Sizes -->
 <div class="size-16">16px size</div>
 
 <!-- Gap (for flex/grid) -->
