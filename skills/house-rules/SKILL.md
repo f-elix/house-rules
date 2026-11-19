@@ -1,6 +1,6 @@
 ---
 name: house-rules
-description: Install, update or check the house-rules guardrails vendored into a repo (oxlint config, conventions, skills, the AGENTS.md block, Prettier, CI). Use when adding house-rules to a repo, pulling its upstream changes, resolving a house-rules conflict, or when `house-rules check` fails.
+description: Install, update or check the house-rules guardrails vendored into a repo (oxlint config, EditorConfig, Prettier ignore block, CI). Use when adding house-rules to a repo, pulling its upstream changes, resolving a house-rules conflict, or when `house-rules check` fails.
 ---
 
 # House rules
