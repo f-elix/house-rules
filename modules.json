@@ -1,13 +1,5 @@
 {
 	"hosts": {
-		"AGENTS.md": {
-			"style": "markdown",
-			"scaffold": "# AGENTS.md\n\n{{block}}\n"
-		},
-		"docs/conventions/README.md": {
-			"style": "markdown",
-			"scaffold": "# Code conventions\n\n{{block}}\n"
-		},
 		".prettierignore": {
 			"style": "hash"
 		},
@@ -18,7 +10,7 @@
 	},
 	"modules": {
 		"core": {
-			"description": "Guardrails for any TypeScript repo: oxlint with anti-slop, conventions, design skills, agent docs, EditorConfig and CI.",
+			"description": "Guardrails for any TypeScript repo: oxlint with anti-slop, EditorConfig, a Prettier ignore block and CI.",
 			"requires": [],
 			"keepTogether": ["tools/oxlint"],
 			"files": [
@@ -32,30 +24,6 @@
 					"target": "tools/oxlint/anti-slop"
 				},
 				{
-					"source": "src/conventions/comments.md",
-					"target": "docs/conventions/comments.md"
-				},
-				{
-					"source": "src/conventions/comments.details.md",
-					"target": "docs/conventions/comments.details.md"
-				},
-				{
-					"source": "src/conventions/file-organization.md",
-					"target": "docs/conventions/file-organization.md"
-				},
-				{
-					"source": "src/conventions/test-cases.md",
-					"target": "docs/conventions/test-cases.md"
-				},
-				{
-					"source": "src/conventions/testing.md",
-					"target": "docs/conventions/testing.md"
-				},
-				{
-					"source": "src/conventions/typescript.md",
-					"target": "docs/conventions/typescript.md"
-				},
-				{
 					"source": "src/config/.editorconfig",
 					"target": ".editorconfig"
 				},
@@ -64,20 +32,7 @@
 					"target": ".github/workflows/format-lint-check.yaml"
 				}
 			],
-			"skills": [
-				"src/skills/codebase-design",
-				"src/skills/software-design-philosophy",
-				"src/skills/testing"
-			],
 			"blocks": [
-				{
-					"source": "src/agents/core.md",
-					"target": "AGENTS.md"
-				},
-				{
-					"source": "src/conventions/readme/core.md",
-					"target": "docs/conventions/README.md"
-				},
 				{
 					"source": "src/config/.prettierignore.core",
 					"target": ".prettierignore"
@@ -142,7 +97,7 @@
 			]
 		},
 		"effect": {
-			"description": "Effect v4 server code: services, layers, schemas and error handling, with the anti-slop-effect and house-effect lint rules.",
+			"description": "Effect v4 server code: the anti-slop-effect and house-effect lint rules.",
 			"requires": ["core"],
 			"files": [
 				{
@@ -153,29 +108,9 @@
 				{
 					"source": "src/lint/house-effect",
 					"target": "tools/oxlint/house-effect"
-				},
-				{
-					"source": "src/conventions/effect.md",
-					"target": "docs/conventions/effect.md"
-				},
-				{
-					"source": "src/conventions/effect.details.md",
-					"target": "docs/conventions/effect.details.md"
-				},
-				{
-					"source": "src/conventions/error-handling.md",
-					"target": "docs/conventions/error-handling.md"
-				},
-				{
-					"source": "src/conventions/error-handling.details.md",
-					"target": "docs/conventions/error-handling.details.md"
 				}
 			],
 			"blocks": [
-				{
-					"source": "src/conventions/readme/effect.md",
-					"target": "docs/conventions/README.md"
-				},
 				{
 					"source": "src/config/.prettierignore.effect",
 					"target": ".prettierignore"
@@ -195,7 +130,7 @@
 			]
 		},
 		"svelte": {
-			"description": "Svelte 5 and SvelteKit components, with the house-svelte lint rules.",
+			"description": "Svelte 5 and SvelteKit: the house-svelte lint rules and the SvelteKit import restrictions.",
 			"requires": ["core"],
 			"files": [
 				{
@@ -206,21 +141,9 @@
 				{
 					"source": "src/lint/house-svelte",
 					"target": "tools/oxlint/house-svelte"
-				},
-				{
-					"source": "src/conventions/svelte-components.md",
-					"target": "docs/conventions/svelte-components.md"
-				},
-				{
-					"source": "src/conventions/sveltekit.details.md",
-					"target": "docs/conventions/sveltekit.details.md"
 				}
 			],
 			"blocks": [
-				{
-					"source": "src/conventions/readme/svelte.md",
-					"target": "docs/conventions/README.md"
-				},
 				{
 					"source": "src/config/.prettierignore.svelte",
 					"target": ".prettierignore"
@@ -244,22 +167,6 @@
 			"serves": {
 				"svelte": ["tools/oxlint/house-svelte"]
 			}
-		},
-		"tailwind": {
-			"description": "Styling with Tailwind CSS.",
-			"requires": ["core"],
-			"files": [
-				{
-					"source": "src/conventions/styling.md",
-					"target": "docs/conventions/styling.md"
-				}
-			],
-			"blocks": [
-				{
-					"source": "src/conventions/readme/tailwind.md",
-					"target": "docs/conventions/README.md"
-				}
-			]
 		}
 	}
 }

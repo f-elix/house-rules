@@ -4,7 +4,7 @@ house-rules ships guardrails that other repos vendor. `README.md` explains the m
 
 ## Payload
 
-- `src/` is the canonical payload. Everything in it lands in other repos, so keep it generic: a rule, doc or skill that names one project, product or domain belongs in that project's repo.
+- `src/` is the canonical payload. Everything in it lands in other repos, so keep it generic: a rule or config that names one project, product or domain belongs in that project's repo.
 - A payload path written as `{{path:X}}` or `{{rel:X}}` renders to X's installed location, where X is the default target. Use them for every reference to another installed file, so `--map` keeps links working. The exception is a file that can't hold templates, such as `src/lint/core.json`, which this repo's own lint config extends as it is. It refers to a sibling by a plain relative path, so its module lists the folder holding both under `keepTogether`, and install and update refuse maps that split that folder.
 - A devDependency or script that only some payload files need goes under the module's `serves`: its name, then the default targets of the files that need it. Install and update stop listing it once the repo tracks none of those files, for example when the repo keeps its own Prettier config.
 - Vendored content keeps an `UPSTREAM.md` with source, commit, license and every local deviation. Update it in the same change as the content. Vendored prose stays as upstream wrote it, em dashes included, so later upstream changes merge cleanly; formatting is the usual deviation.
@@ -29,4 +29,4 @@ The root `.oxlintrc.json` extends `src/lint/core.json`, so the repo lints itself
 
 ## Verify
 
-Run `pnpm check` (lint, typecheck, tests) and `pnpm format`. Tests run the CLI end to end against temporary git repos; add a case there for each engine behaviour you change. They live in `test/`, not in `__tests__` folders as `src/conventions/testing.md` asks, because they test the CLI as a whole rather than one module.
+Run `pnpm check` (lint, typecheck, tests) and `pnpm format`. Tests run the CLI end to end against temporary git repos; add a case there for each engine behaviour you change. They live in `test/`, not in `__tests__` folders next to the code, because they test the CLI as a whole rather than one module.

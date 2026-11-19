@@ -1,6 +1,6 @@
 # house-rules
 
-Coding guardrails that repos vendor: lint rules, convention docs, agent skills, an AGENTS.md section, editor config, and CI. A repo installs a copy and owns it. Local edits are allowed, and updates merge upstream changes into them instead of overwriting them.
+Coding guardrails that repos vendor: lint rules, editor config, a Prettier ignore block, and CI. Deterministic checks only: the conventions, design references and agent instructions moved to [ship](https://github.com/f-elix/ship), which applies them to every run in any repo. A repo installs a copy and owns it. Local edits are allowed, and updates merge upstream changes into them instead of overwriting them.
 
 The model comes from [anti-slop](https://github.com/dmmulroy/anti-slop): vendored files, updated through a reviewed 3-way merge. house-rules adds a lockfile that records the upstream commit and a content hash for every managed file, so each update knows its merge base.
 
@@ -12,7 +12,7 @@ Add the skill, then ask your agent to install house-rules:
 npx skills add f-elix/house-rules --skill house-rules
 ```
 
-`--skill house-rules` pins the install to that one skill. The skills CLI only lists `skills/house-rules` today, but when it finds no valid skill there it scans the whole repo and would offer the payload skills under `src/skills/` as well.
+`--skill house-rules` pins the install to that one skill.
 
 The skill runs a small bootstrap, `scripts/run.mjs`. It clones house-rules at the locked ref (default `main`) and runs that checkout's engine, so the engine always matches the payload it installs. You can also run it yourself:
 
@@ -35,7 +35,7 @@ Every command takes `--json` for a machine-readable report. Every command but `c
 
 Install plans every file first. If a target already exists with other content, it reports a collision and writes nothing. Rerun with `--overwrite`, `--keep` or `--skip` for each one. A kept file is tracked as a local change. Keeping another config for the same tool, or a link that points elsewhere, declines the item instead, as `--skip` does. A skipped path stays declined: later installs and updates leave out what upstream adds under it.
 
-`--map docs=handbook` moves a folder. Paths inside the payload are templates, so links and references follow the move. The lockfile fixes the layout at the first install. Map `tools/oxlint` as a whole: `core.json` loads the plugin from `./anti-slop`, next to it, and install refuses a map that splits them.
+`--map tools/oxlint=config/lint` moves a folder. Paths inside the payload are templates, so links and references follow the move. The lockfile fixes the layout at the first install. Map `tools/oxlint` as a whole: `core.json` loads the plugin from `./anti-slop`, next to it, and install refuses a map that splits them.
 
 Install doesn't touch `package.json`. It lists the devDependencies, scripts and fields the modules need, and you add them. The repo needs Node 22.18 or later, since oxlint loads the anti-slop plugin from TypeScript source through Node's type stripping.
 
@@ -57,19 +57,15 @@ Add `check` to CI. The `core` module's workflow runs it. It fails on missing man
 
 ## The core module
 
-| Payload                           | Installed at                            |
-| --------------------------------- | --------------------------------------- |
-| `src/lint/core.json`              | `tools/oxlint/core.json`                |
-| `src/lint/anti-slop/`             | `tools/oxlint/anti-slop/`               |
-| `src/conventions/*.md`            | `docs/conventions/`                     |
-| `src/skills/<name>/`              | `.agents/skills/<name>/`                |
-| `src/config/.editorconfig`        | `.editorconfig`                         |
-| `src/ci/*.yaml`                   | `.github/workflows/`                    |
-| `src/agents/core.md`              | a block in `AGENTS.md`                  |
-| `src/conventions/readme/core.md`  | a block in `docs/conventions/README.md` |
-| `src/config/.prettierignore.core` | a block in `.prettierignore`            |
+| Payload                           | Installed at                 |
+| --------------------------------- | ---------------------------- |
+| `src/lint/core.json`              | `tools/oxlint/core.json`     |
+| `src/lint/anti-slop/`             | `tools/oxlint/anti-slop/`    |
+| `src/config/.editorconfig`        | `.editorconfig`              |
+| `src/ci/*.yaml`                   | `.github/workflows/`         |
+| `src/config/.prettierignore.core` | a block in `.prettierignore` |
 
-Each skill also gets a relative symlink at `.claude/skills/<name>`. The repo's `.oxlintrc.json` gets `extends: ["./tools/oxlint/core.json"]` and ignore patterns for agent folders and the vendored plugin. Another oxlint config file (`.oxlintrc.jsonc`, `oxlint.config.ts` or `oxlint.config.mts`) counts as a collision with the `extends` value, since oxlint refuses to run with two config files. `--overwrite` installs the managed config anyway, and the report names the old config to delete.
+The repo's `.oxlintrc.json` gets `extends: ["./tools/oxlint/core.json"]` and ignore patterns for agent folders and the vendored plugin. Another oxlint config file (`.oxlintrc.jsonc`, `oxlint.config.ts` or `oxlint.config.mts`) counts as a collision with the `extends` value, since oxlint refuses to run with two config files. `--overwrite` installs the managed config anyway, and the report names the old config to delete.
 
 Blocks sit between markers such as `<!-- house-rules:core:start -->` and `<!-- house-rules:core:end -->`. Text outside the markers belongs to the repo. A later module adds its own block after the last one.
 
@@ -86,17 +82,14 @@ If a later oxlint stops carrying `jsPlugins` or `overrides` through `extends`, c
 
 ## Other modules
 
-Install them with `--modules`, for example `--modules effect,svelte,tailwind`. Each brings `core`.
+Install them with `--modules`, for example `--modules effect,svelte`. Each brings `core`.
 
-| Module     | Payload                                                                  | Installed at        |
-| ---------- | ------------------------------------------------------------------------ | ------------------- |
-| `effect`   | `src/lint/effect.json`, `src/lint/house-effect/`                         | `tools/oxlint/`     |
-|            | `src/conventions/effect.md`, `error-handling.md` and their `.details.md` | `docs/conventions/` |
-| `svelte`   | `src/lint/svelte.json`, `src/lint/house-svelte/`                         | `tools/oxlint/`     |
-|            | `src/conventions/svelte-components.md`, `sveltekit.details.md`           | `docs/conventions/` |
-| `tailwind` | `src/conventions/styling.md`                                             | `docs/conventions/` |
+| Module   | Payload                                          | Installed at    |
+| -------- | ------------------------------------------------ | --------------- |
+| `effect` | `src/lint/effect.json`, `src/lint/house-effect/` | `tools/oxlint/` |
+| `svelte` | `src/lint/svelte.json`, `src/lint/house-svelte/` | `tools/oxlint/` |
 
-Each adds its own table of topics to `docs/conventions/README.md`. `effect` and `svelte` add their oxlint config to `extends` after core's, and put their plugin folder in `ignorePatterns` and `.prettierignore`.
+`effect` and `svelte` add their oxlint config to `extends` after core's, and put their plugin folder in `ignorePatterns` and `.prettierignore`.
 
 - `effect.json` turns on the vendored `anti-slop-effect` rules and `house-effect/no-instanceof-in-effect-error-handler`. That rule flags `instanceof` on an error class inside an Effect error handler, since tagged errors are told apart by tag. Built-in errors pass. List classes that share one tag on purpose in the rule's `allow` option.
 - `svelte.json` turns on `house-svelte/no-underscore-exports` in `src/routes/`. SvelteKit accepts `_`-prefixed exports from route files, which makes them a back door for tests. It also turns on `no-restricted-imports` for `$types` modules, since SvelteKit infers route types, and `house-svelte/no-empty-snippets` in every `.svelte` file. That rule flags a snippet holding only whitespace or comments, such as an empty `pending` in a `<svelte:boundary>`. oxlint hands JS plugins only a component's `<script>`, so the rule parses the whole file with `svelte/compiler`, which is why the module lists `svelte` as a devDependency. Its diagnostic points at the first line of the script and names the snippet's line, and a component without a `<script>` isn't checked.

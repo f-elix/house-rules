@@ -1,7 +1,7 @@
 import { defineRule, type ESTree, type Options } from '@oxlint/plugins';
 
 /**
- * Tagged errors are translated by tag, not by class (`docs/conventions/error-handling.details.md`).
+ * Tagged errors are translated by tag, not by class.
  * The `allow` option lists error classes that share a tag, which only `instanceof` tells apart.
  */
 export const noInstanceofInEffectErrorHandlerRule = defineRule({

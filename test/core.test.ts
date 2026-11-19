@@ -17,7 +17,7 @@ const PACKAGES = [
 ];
 
 /** Installs every module, so one consumer covers all of the payload. */
-const ALL = ['--modules', 'core,effect,svelte,tailwind'];
+const ALL = ['--modules', 'core,effect,svelte'];
 
 const TEMPLATE = /\{\{(path|rel):/;
 
